@@ -1,4 +1,4 @@
-# Blog API
+# Spring Boot Blog API
 
 Blog API is a RESTful web service developed using Spring Boot, allowing users to interact with a Blog Engine that includes posts. The API does not include authentication and can handle titles and bodies for each post.
 
