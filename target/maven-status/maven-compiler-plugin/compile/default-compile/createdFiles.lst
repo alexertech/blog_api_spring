@@ -1,5 +1,6 @@
+com/example/blog/config/DataSeeder.class
 com/example/blog/exception/ResourceNotFoundException.class
-com/example/blog/repository/PostRepository.class
-com/example/blog/BlogApplication.class
 com/example/blog/model/Post.class
 com/example/blog/controller/PostController.class
+com/example/blog/repository/PostRepository.class
+com/example/blog/BlogApplication.class
