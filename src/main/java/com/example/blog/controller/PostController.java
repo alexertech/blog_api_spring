@@ -6,10 +6,16 @@ import com.example.blog.exception.ResourceNotFoundException;
 import com.example.blog.model.Post;
 import com.example.blog.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/posts")
@@ -25,7 +31,7 @@ public class PostController {
 
     // Create a new Post
     @PostMapping
-    public Post createPost(@RequestBody Post post) {
+    public Post createPost(@Valid @RequestBody Post post) {
         return postRepository.save(post);
     }
 
@@ -39,5 +45,14 @@ public class PostController {
         return ResponseEntity.ok().body(post);
     }
 
-    // Other CRUD methods omitted for brevity.
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+    }
 }
